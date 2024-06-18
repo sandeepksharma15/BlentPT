@@ -39,17 +39,17 @@
 
     @* Progress Bar *@
     <div class="progress mt-3 mb-3" style="height: 24px;" >
-        <div class="progress-bar" role="progressbar" style="width: @progressBarWidth%">
+        <div class="progress-bar overflow-visible text-dark" role="progressbar" style="width: @progressBarWidth%">
             @progressMessage
         </div>
     </div>
 
     @* Orphan Files *@
-    <InputTextArea Class="form-control" @bind-Value="scannedFiles" style="width: 100%;" rows="15" />
+    <InputTextArea Class="form-control" @bind-Value="scannedFiles" style="width: 100%;" rows="15" disabled="true" />
 
     @* Action *@
     <div class="d-grid mt-5">
-        <button class="btn btn-danger" type="button" @onclick="DeleteOrphanFiles" disabled="@orphanFiles.Count == 0">
+        <button class="btn btn-danger" type="button" @onclick="DeleteOrphanFiles" disabled="@(orphanFiles.Count == 0)">
             Delete Orphan Files
         </button>
     </div>

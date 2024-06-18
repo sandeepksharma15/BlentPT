@@ -33,11 +33,10 @@ public partial class OrphanXMP
         progressMessage = "Scanning...";
         orphanFiles.Clear();
         scannedFiles = string.Empty;
-        StateHasChanged();
 
         // Scan
-        var files = Directory.GetFiles(scanFolder, "*.xmp", includeSubFolders 
-            ? SearchOption.AllDirectories 
+        var files = Directory.GetFiles(scanFolder, "*.xmp", includeSubFolders
+            ? SearchOption.AllDirectories
             : SearchOption.TopDirectoryOnly);
         var fileCount = files.Length;
         var i = 0;
@@ -46,6 +45,7 @@ public partial class OrphanXMP
         {
             // Update Progress Bar
             progressBarWidth = (int)((double)i++ / fileCount * 100);
+            progressMessage = $"Scanning {i} of {fileCount} files...";
 
             // Check that there is no other file with the same name but different extension, in the same folder
             var fileName = Path.GetFileNameWithoutExtension(file);
@@ -62,15 +62,44 @@ public partial class OrphanXMP
         }
 
         progressBarWidth = 100;
-        progressMessage = orphanFiles.Count == 0 
-            ? "No orphan files found." 
+        progressMessage = orphanFiles.Count == 0
+            ? "No orphan files found."
             : $"{orphanFiles.Count} orphan files found.";
 
         StateHasChanged();
     }
 
-    private Task DeleteOrphanFiles(Microsoft.AspNetCore.Components.Web.MouseEventArgs e)
+    private void DeleteOrphanFiles(Microsoft.AspNetCore.Components.Web.MouseEventArgs e)
     {
-        throw new NotImplementedException();
+        // Reset
+        progressBarWidth = 0;
+        progressMessage = "Deleting...";
+        var i = 0;
+
+        foreach (var file in orphanFiles)
+        {
+            // Update Progress Bar
+            progressBarWidth = (int)((double)i++ / orphanFiles.Count * 100);
+            progressMessage = $"Deleting {i} of {orphanFiles.Count} files...";
+
+            try
+            {
+                // Delete
+                File.Delete(file);
+            }
+            catch (Exception ex)
+            {
+                // Display the exception message in message box
+                MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+
+            StateHasChanged();
+        }
+
+        progressBarWidth = 100;
+        progressMessage = "Orphan files deleted.";
+        orphanFiles.Clear();
+        scannedFiles = string.Empty;
+        StateHasChanged();
     }
 }
