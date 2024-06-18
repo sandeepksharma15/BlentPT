@@ -1,12 +1,15 @@
+using System.IO;
+
 namespace BlentPT.Pages;
 
 public partial class OrphanXMP
 {
     private string scanFolder = string.Empty;
-    private int progressBarWidth = 50;
+    private int progressBarWidth = 0;
     private readonly List<string> orphanFiles = [];
     private bool includeSubFolders = true;
     private string scannedFiles = string.Empty;
+    private string progressMessage = string.Empty;
 
     private void SelectFolder(Microsoft.AspNetCore.Components.Web.MouseEventArgs e)
     {
@@ -23,9 +26,47 @@ public partial class OrphanXMP
         }
     }
 
-    private Task ScanOrphans(Microsoft.AspNetCore.Components.Web.MouseEventArgs e)
+    private void ScanOrphans(Microsoft.AspNetCore.Components.Web.MouseEventArgs e)
     {
-        throw new NotImplementedException();
+        // Reset
+        progressBarWidth = 0;
+        progressMessage = "Scanning...";
+        orphanFiles.Clear();
+        scannedFiles = string.Empty;
+        StateHasChanged();
+
+        // Scan
+        var files = Directory.GetFiles(scanFolder, "*.xmp", includeSubFolders 
+            ? SearchOption.AllDirectories 
+            : SearchOption.TopDirectoryOnly);
+        var fileCount = files.Length;
+        var i = 0;
+
+        foreach (var file in files)
+        {
+            // Update Progress Bar
+            progressBarWidth = (int)((double)i++ / fileCount * 100);
+
+            // Check that there is no other file with the same name but different extension, in the same folder
+            var fileName = Path.GetFileNameWithoutExtension(file);
+            var folder = Path.GetDirectoryName(file);
+            var otherFiles = Directory.GetFiles(folder, $"{fileName}.*");
+
+            if (otherFiles.Length == 1)
+            {
+                orphanFiles.Add(file);
+                scannedFiles += $"{file}\n";
+            }
+
+            StateHasChanged();
+        }
+
+        progressBarWidth = 100;
+        progressMessage = orphanFiles.Count == 0 
+            ? "No orphan files found." 
+            : $"{orphanFiles.Count} orphan files found.";
+
+        StateHasChanged();
     }
 
     private Task DeleteOrphanFiles(Microsoft.AspNetCore.Components.Web.MouseEventArgs e)
