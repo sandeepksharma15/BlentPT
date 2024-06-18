@@ -5,6 +5,7 @@
 </div>
 
 <div class="mt-3">
+    @* Select Scan Folder *@
     <fieldset class="form-box">
         <legend>Root Folder</legend>
 
@@ -14,10 +15,42 @@
                 <div class="fw-semibold">@(String.IsNullOrEmpty(scanFolder) ? "<Nothing Selected>" : scanFolder)</div>
             </div>
             <div>
-                <button class="btn btn-primary" @onclick="SelectFolder" >
+                <button class="btn btn-primary" @onclick="SelectFolder">
                     Select Folder
                 </button>
             </div>
         </div>
     </fieldset>
+
+    @* Start Scanning *@
+    <fieldset class="form-box mt-5">
+        <legend>Start Scan</legend>
+
+        <div class="form-box-content justify-content-between">
+            <div>
+                <InputCheckbox Class="form-check-input" @bind-Value="includeSubFolders" />
+                <span class="fs-6">Include SubFolders</span>
+            </div>
+            <button class="btn btn-primary" @onclick="ScanOrphans" disabled="@String.IsNullOrEmpty(scanFolder)">
+                Scan Orphans
+            </button>
+        </div>
+    </fieldset>
+
+    @* Progress Bar *@
+    <div class="progress mt-3 mb-3" style="height: 24px;" >
+        <div class="progress-bar" role="progressbar" style="width: @progressBarWidth%">
+            Scanning Files
+        </div>
+    </div>
+
+    @* Orphan Files *@
+    <InputTextArea Class="form-control" @bind-Value="scannedFiles" style="width: 100%;" rows="15" />
+
+    @* Action *@
+    <div class="d-grid mt-5">
+        <button class="btn btn-danger" type="button" @onclick="DeleteOrphanFiles" disabled="@orphanFiles.Count == 0">
+            Delete Orphan Files
+        </button>
+    </div>
 </div>

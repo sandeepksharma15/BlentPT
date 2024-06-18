@@ -1,12 +1,12 @@
-using System;
-using System.IO;
-using System.Windows.Forms;
-
 namespace BlentPT.Pages;
 
 public partial class OrphanXMP
 {
     private string scanFolder = string.Empty;
+    private int progressBarWidth = 50;
+    private readonly List<string> orphanFiles = [];
+    private bool includeSubFolders = true;
+    private string scannedFiles = string.Empty;
 
     private void SelectFolder(Microsoft.AspNetCore.Components.Web.MouseEventArgs e)
     {
@@ -23,4 +23,13 @@ public partial class OrphanXMP
         }
     }
 
+    private Task ScanOrphans(Microsoft.AspNetCore.Components.Web.MouseEventArgs e)
+    {
+        throw new NotImplementedException();
+    }
+
+    private Task DeleteOrphanFiles(Microsoft.AspNetCore.Components.Web.MouseEventArgs e)
+    {
+        throw new NotImplementedException();
+    }
 }

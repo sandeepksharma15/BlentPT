@@ -84,13 +84,13 @@ a, .btn-link {
 
     .form-box legend {
         position: absolute;
-        background-color: inherit;
+        background-color: white;
         font-size: .9rem;
-        padding: 0 5px 5px 0;
-        text-align: left;
         top: -0.7rem;
         left: 1rem;
-        display: block;
+        padding-inline: 3px;
+        width:fit-content;
+        color: #777;
     }
 
 .form-box-content {
