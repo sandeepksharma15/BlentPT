@@ -73,3 +73,33 @@ a, .btn-link {
     font-size: 1.4rem;
     padding-left: 2rem;
 }
+
+.form-box {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    position: relative;
+    padding: 1rem;
+    box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #ccc;
+}
+
+    .form-box legend {
+        position: absolute;
+        background-color: inherit;
+        font-size: .9rem;
+        padding: 0 5px 5px 0;
+        text-align: left;
+        top: -0.7rem;
+        left: 1rem;
+        display: block;
+    }
+
+.form-box-content {
+    display: flex;
+    align-items: center;
+    height: 100%;
+}
+
+.etched-border {
+    border: 1px solid #ccc;
+    box-shadow: inset 1px 1px 0 #fff, inset -1px -1px 0 #000;
+}
