@@ -47,3 +47,29 @@ a, .btn-link {
         top: 0.5rem;
     }
 
+.page-title-row {
+    height: 3.5rem;
+    background-color: #05173D;
+    margin-left: -2rem;
+    margin-right: -1rem;
+    color: white;
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+    .page-title-row::before {
+        content: "";
+        display: block;
+        position: absolute;
+        left: 0; /* Adjust this value based on where you want the line to appear */
+        top: 0;
+        bottom: 0;
+        width: 1px;
+        background-color: gray;
+    }
+
+.page-title {
+    font-size: 1.4rem;
+    padding-left: 2rem;
+}
